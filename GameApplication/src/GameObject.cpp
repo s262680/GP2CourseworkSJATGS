@@ -2,14 +2,14 @@
 
 GameObject::GameObject()
 {
-	m_Position = vec3(0.0f, 0.0f, 0.0f);
+	
 	m_Rotation = vec3(0.0f, 0.0f, 0.0f);
-	m_Scale = vec3(1.0f, 1.0f, 1.0f);
+	
 	
 
 	m_ModelMatrix = mat4(1.0f);
 	m_TranslationMatrix = mat4(1.0f);
-	m_ScaleMatrix = mat4(1.0f);
+	
 
 	m_RotationMatrix = mat4(1.0f);
 
@@ -42,18 +42,26 @@ void GameObject::onUpdate()
 	//mat4 rotationXMatrix = ::rotate(radians(m_Rotation.x), vec3(1.0f, 0.0f, 0.0f));
 	//mat4 rotationYMatrix = ::rotate(radians(m_Rotation.y), vec3(0.0f, 1.0f, 0.0f));
 	//mat4 rotationZMatrix = ::rotate(radians(m_Rotation.z), vec3(0.0f, 0.0f, 1.0f));
-	m_RotationMatrix=eulerAngleYXZ(m_Rotation.y,m_Rotation.x,m_Rotation.z);
 	//m_RotationMatrix = rotationXMatrix*rotationYMatrix*rotationZMatrix;
 
-	m_ScaleMatrix = scale(m_Scale);
 
-	m_TranslationMatrix = translate(m_Position);
 
-	m_ModelMatrix = m_TranslationMatrix*m_RotationMatrix*m_ScaleMatrix;
+	m_GameObjectTransform.TransformUpdate(); // SCALEMARKER
+	m_RotationMatrix=eulerAngleYXZ(m_Rotation.y,m_Rotation.x,m_Rotation.z);
+
+
+
+
+	m_TranslationMatrix = translate(m_GameObjectTransform.getPosition());
+	
+	m_ModelMatrix = m_TranslationMatrix*m_RotationMatrix*m_GameObjectTransform.getScaleMatrix(); //MARKER FOR WHERE WE DID STUFF!!!!!!!!!!!!!!!
 	if (m_pParent)
 	{
 		m_ModelMatrix *= m_pParent->getModelMatrix();
 	}
+
+	// And this is where we proved we're not retarded m_GameObjectTransform.TransformUpdate();
+
 }
 
 void GameObject::onRender(mat4& view, mat4& projection)
@@ -186,6 +194,16 @@ void GameObject::loadShaders(const string & vsFilename, const string & fsFilenam
 	glDeleteShader(fragmentShaderProgram);
 
 	logShaderInfo(m_ShaderProgram);
+}
+
+void GameObject::setScale(vec3 scale)
+{
+	m_GameObjectTransform.setScale(scale);
+}
+
+void GameObject::setPosition(vec3 pos)
+{
+	m_GameObjectTransform.setPosition(pos);
 }
 
 void GameObject::copyVertexData(Vertex * pVertex, int numberOfVertices, int * pIndices, int numberOfIndices)

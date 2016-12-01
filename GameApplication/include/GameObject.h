@@ -1,10 +1,15 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
+
 #include "Common.h"
 #include "Vertex.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "Transform.h"
+#include <iostream>
+
+using namespace std;
 
 class GameObject
 {
@@ -18,41 +23,28 @@ public:
 	void onDestroy();
 
 	void addChild(shared_ptr<GameObject> gameobject);
+	void setScale(vec3 scale);
+	void setPosition(vec3 pos);
 
 	mat4& getModelMatrix()
 	{
 		return m_ModelMatrix;
 	}
 
-	void setPosition(const vec3& pos)
-	{
-		m_Position = pos;
-	};
+
 
 	void setRotation(const vec3& rot)
 	{
 		m_Rotation = rot;
 	};
 
-	void setScale(const vec3& scale)
-	{
-		m_Scale = scale;
-	};
-
-	vec3& getPosition()
-	{
-		return m_Position;
-	};
 
 	vec3& getRotation()
 	{
 		return m_Rotation;
 	};
 
-	vec3& getScale()
-	{
-		return m_Scale;
-	};
+
 
 	void rotate(const vec3& delta);
 
@@ -85,6 +77,9 @@ public:
 		m_SpecularMaterialPower = power;
 	};
 
+
+
+
 	
 	void loadDiffuseTexture(const string& filename);
 	void loadSpecularTexture(const string &filename);
@@ -94,12 +89,10 @@ private:
 	GameObject * m_pParent;
 	vector<shared_ptr<GameObject> > m_ChildrenGameObjects;
 
-	vec3 m_Position;
 	vec3 m_Rotation;
-	vec3 m_Scale;
 
 	mat4 m_TranslationMatrix;
-	mat4 m_ScaleMatrix;
+
 	mat4 m_RotationMatrix;
 	mat4 m_ModelMatrix;
 
@@ -122,6 +115,8 @@ private:
 	vec4 m_DiffuseMaterialColour;
 	vec4 m_SpecularMaterialColour;
 	float m_SpecularMaterialPower;
+
+	Transform m_GameObjectTransform;
 };
 
 #endif
