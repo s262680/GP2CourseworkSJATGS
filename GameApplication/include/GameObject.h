@@ -8,6 +8,7 @@
 #include "Shader.h"
 #include "Transform.h"
 #include <iostream>
+#include "Material.h"
 
 using namespace std;
 
@@ -25,24 +26,16 @@ public:
 	void addChild(shared_ptr<GameObject> gameobject);
 	void setScale(vec3 scale);
 	void setPosition(vec3 pos);
+	void setRotation(vec3 rot);
 
 	mat4& getModelMatrix()
 	{
 		return m_ModelMatrix;
-	}
-
-
-
-	void setRotation(const vec3& rot)
-	{
-		m_Rotation = rot;
 	};
 
 
-	vec3& getRotation()
-	{
-		return m_Rotation;
-	};
+
+
 
 
 
@@ -89,12 +82,11 @@ private:
 	GameObject * m_pParent;
 	vector<shared_ptr<GameObject> > m_ChildrenGameObjects;
 
-	vec3 m_Rotation;
 
-	mat4 m_TranslationMatrix;
 
-	mat4 m_RotationMatrix;
+
 	mat4 m_ModelMatrix;
+	
 
 	GLuint m_VBO;
 	GLuint m_EBO;

@@ -3,15 +3,11 @@
 GameObject::GameObject()
 {
 	
-	m_Rotation = vec3(0.0f, 0.0f, 0.0f);
-	
 	
 
 	m_ModelMatrix = mat4(1.0f);
-	m_TranslationMatrix = mat4(1.0f);
 	
 
-	m_RotationMatrix = mat4(1.0f);
 
 	m_VBO=0;
 	m_EBO=0;
@@ -25,11 +21,12 @@ GameObject::GameObject()
 	m_Sampler=0;
 	m_pParent = nullptr;
 
-	m_AmbientMaterialColour=vec4(0.2f,0.2f,0.2f,1.0f);
-	m_DiffuseMaterialColour=vec4(0.5f,0.5f,0.5f,1.0f);
-	m_SpecularMaterialColour=vec4(1.0f,1.0f,1.0f,1.0f);
-	
-	m_SpecularMaterialPower=25.0f;
+	m_AmbientMaterialColour = vec4(0.2f, 0.2f, 0.2f, 1.0f);
+	m_DiffuseMaterialColour = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_SpecularMaterialColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	m_SpecularMaterialPower = 25.0f;
+
 }
 
 GameObject::~GameObject()
@@ -46,15 +43,12 @@ void GameObject::onUpdate()
 
 
 
-	m_GameObjectTransform.TransformUpdate(); // SCALEMARKER
-	m_RotationMatrix=eulerAngleYXZ(m_Rotation.y,m_Rotation.x,m_Rotation.z);
+	m_GameObjectTransform.TransformUpdate(); 
 
 
-
-
-	m_TranslationMatrix = translate(m_GameObjectTransform.getPosition());
 	
-	m_ModelMatrix = m_TranslationMatrix*m_RotationMatrix*m_GameObjectTransform.getScaleMatrix(); //MARKER FOR WHERE WE DID STUFF!!!!!!!!!!!!!!!
+	//m_ModelMatrix = m_GameObjectTransform.getModelMatrix();
+	m_ModelMatrix = m_GameObjectTransform.getTranslationMatrix()*m_GameObjectTransform.getRotationMatrix()*m_GameObjectTransform.getScaleMatrix(); //MARKER FOR WHERE WE DID STUFF!!!!!!!!!!!!!!!
 	if (m_pParent)
 	{
 		m_ModelMatrix *= m_pParent->getModelMatrix();
@@ -106,6 +100,7 @@ void GameObject::onRender(mat4& view, mat4& projection)
 
 	GLint diffuseLocation = glGetUniformLocation(m_ShaderProgram, "diffuseMaterialColour");
 	glUniform4fv(diffuseLocation, 1, value_ptr(m_DiffuseMaterialColour));
+	//glUniform4fv(diffuseLocation, 1, value_ptr(m_DiffuseMaterialColour));
 
 	GLint specularLocation = glGetUniformLocation(m_ShaderProgram, "specularMaterialColour");
 	glUniform4fv(specularLocation, 1, value_ptr(m_SpecularMaterialColour));
@@ -139,7 +134,7 @@ void GameObject::addChild(shared_ptr<GameObject> gameobject)
 
 void GameObject::rotate(const vec3 & delta)
 {
-	m_Rotation += delta;
+	//m_Rotation += delta;
 }
 
 void GameObject::loadDiffuseTexture(const string & filename)
@@ -204,6 +199,11 @@ void GameObject::setScale(vec3 scale)
 void GameObject::setPosition(vec3 pos)
 {
 	m_GameObjectTransform.setPosition(pos);
+}
+
+void GameObject::setRotation(vec3 rot)
+{
+	m_GameObjectTransform.setRotation(rot);
 }
 
 void GameObject::copyVertexData(Vertex * pVertex, int numberOfVertices, int * pIndices, int numberOfIndices)

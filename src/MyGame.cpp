@@ -33,6 +33,7 @@ void MyGame::initScene()
 
 	m_TestGO->setScale(vec3(5.0f, 5.0f, 5.0f));
 	m_TestGO->setPosition(vec3(20.0f, 0.0f, 0.0f));
+	m_TestGO->setRotation(vec3(0.0f, 0.0f, 0.0f));
 
 	m_CameraPosition = vec3(0.0f, 0.0f, 100.0f);
 
