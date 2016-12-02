@@ -57,25 +57,7 @@ public:
 	
 	GLuint getShaderProgram();
 
-	void setAmbientMaterialColour(const vec4& colour)
-	{
-		m_AmbientMaterialColour = colour;
-	};
-
-	void setDiffuseMaterialColour(const vec4& colour)
-	{
-		m_DiffuseMaterialColour = colour;
-	};
-
-	void setSpecularMaterialColour(const vec4& colour)
-	{
-		m_SpecularMaterialColour = colour;
-	};
-
-	void setSpecularPower(float power)
-	{
-		m_SpecularMaterialPower = power;
-	};
+	
 
 
 
@@ -105,11 +87,7 @@ private:
 	GLuint m_Sampler;
 
 
-	//Materials
-	vec4 m_AmbientMaterialColour;
-	vec4 m_DiffuseMaterialColour;
-	vec4 m_SpecularMaterialColour;
-	float m_SpecularMaterialPower;
+	
 
 	Transform m_GameObjectTransform;
 	Renderer m_GameObjectRenderer;

@@ -21,11 +21,7 @@ GameObject::GameObject()
 	m_Sampler=0;
 	m_pParent = nullptr;
 
-	m_AmbientMaterialColour = vec4(0.2f, 0.2f, 0.2f, 1.0f);
-	m_DiffuseMaterialColour = vec4(0.5f, 0.5f, 0.5f, 1.0f);
-	m_SpecularMaterialColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	m_SpecularMaterialPower = 25.0f;
+	
 
 }
 
@@ -99,17 +95,17 @@ void GameObject::onRender(mat4& view, mat4& projection)
 
 
 	GLint ambientLocation = glGetUniformLocation(shaderProgram, "ambientMaterialColour");
-	glUniform4fv(ambientLocation, 1, value_ptr(m_AmbientMaterialColour));
+	glUniform4fv(ambientLocation, 1, value_ptr(m_GameObjectRenderer.getAmbientMaterialColour()));
 
 	GLint diffuseLocation = glGetUniformLocation(shaderProgram, "diffuseMaterialColour");
-	glUniform4fv(diffuseLocation, 1, value_ptr(m_DiffuseMaterialColour));
+	glUniform4fv(diffuseLocation, 1, value_ptr(m_GameObjectRenderer.getDiffuseMaterialColour()));
 	//glUniform4fv(diffuseLocation, 1, value_ptr(m_DiffuseMaterialColour));
 
 	GLint specularLocation = glGetUniformLocation(shaderProgram, "specularMaterialColour");
-	glUniform4fv(specularLocation, 1, value_ptr(m_SpecularMaterialColour));
+	glUniform4fv(specularLocation, 1, value_ptr(m_GameObjectRenderer.getSpecularMaterialColour()));
 
 	GLint specularPowerLocation = glGetUniformLocation(shaderProgram, "specularPower");
-	glUniform1f(specularPowerLocation, m_SpecularMaterialPower);
+	glUniform1f(specularPowerLocation, m_GameObjectRenderer.getSpecularPower());
 
 	glDrawElements(GL_TRIANGLES, m_NumberOfIndices, GL_UNSIGNED_INT, NULL);
 }

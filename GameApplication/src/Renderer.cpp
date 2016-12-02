@@ -6,6 +6,15 @@ Renderer::Renderer()
 {
 	m_ShaderProgram = 0;
 	m_DiffuseTexture = 0;
+	m_SpecularTexture =0;
+	m_NormalTexture=0;
+	m_HeightTexture=0;
+
+	m_AmbientMaterialColour = vec4(0.2f, 0.2f, 0.2f, 1.0f);
+	m_DiffuseMaterialColour = vec4(0.5f, 0.5f, 0.5f, 1.0f);
+	m_SpecularMaterialColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	m_SpecularMaterialPower = 25.0f;
 
 	m_Sampler=0;
 }
