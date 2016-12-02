@@ -32,7 +32,10 @@ public:
 
 	//RendererStuff
 	void loadShaders(const string& vsFilename, const string& fsFilename);
-	
+	void loadDiffuseTexture(const string& filename);
+	void loadSpecularTexture(const string& filename);
+	void loadNormalTexture(const string& filename);
+	void loadHeightTexture(const string& filename);
 
 	mat4& getModelMatrix()
 	{
@@ -78,10 +81,8 @@ public:
 
 
 	
-	void loadDiffuseTexture(const string& filename);
-	void loadSpecularTexture(const string &filename);
-	void loadNormalTexture(const string &filename);
-	void loadHeightTexture(const string &filename);
+	
+
 private:
 	GameObject * m_pParent;
 	vector<shared_ptr<GameObject> > m_ChildrenGameObjects;
@@ -100,11 +101,9 @@ private:
 
 	//Shader Program
 	
-	GLuint m_DiffuseTexture;
-	GLuint m_SpecularTexture;
+	
 	GLuint m_Sampler;
-	GLuint m_NormalTexture;
-	GLuint m_HeightTexture;
+
 
 	//Materials
 	vec4 m_AmbientMaterialColour;

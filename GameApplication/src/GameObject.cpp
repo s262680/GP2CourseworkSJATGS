@@ -17,7 +17,7 @@ GameObject::GameObject()
 
 	//Shader Program
 
-	m_DiffuseTexture=0;
+	
 	m_Sampler=0;
 	m_pParent = nullptr;
 
@@ -75,25 +75,25 @@ void GameObject::onRender(mat4& view, mat4& projection)
 
 	glBindSampler(0, m_Sampler);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture);
+	glBindTexture(GL_TEXTURE_2D, m_GameObjectRenderer.getDiffuseTexture());
 	GLint specTextureLocation = glGetUniformLocation(shaderProgram, "diffuseSampler");
 	glUniform1i(specTextureLocation, 0);
 
 	glBindSampler(1, m_Sampler);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture);
+	glBindTexture(GL_TEXTURE_2D, m_GameObjectRenderer.getSpecularTexture());
 	GLint diffTextureLocation = glGetUniformLocation(shaderProgram, "specularSampler");
 	glUniform1i(diffTextureLocation, 1);
 
 	glBindSampler(2, m_Sampler);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	glBindTexture(GL_TEXTURE_2D, m_GameObjectRenderer.getNormalTexture());
 	GLint normTextureLocation = glGetUniformLocation(shaderProgram, "normalSampler");
 	glUniform1i(normTextureLocation, 2);
 
 	glBindSampler(3, m_Sampler);
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, m_HeightTexture);
+	glBindTexture(GL_TEXTURE_2D, m_GameObjectRenderer.getHeightTexture());
 	GLint heightTextureLocation = glGetUniformLocation(shaderProgram, "heightMap");
 	glUniform1i(heightTextureLocation, 3);
 
@@ -127,7 +127,7 @@ void GameObject::onDestroy()
 	glDeleteBuffers(1, &m_EBO);
 	glDeleteBuffers(1, &m_VBO);
 	glDeleteSamplers(1, &m_Sampler);
-	glDeleteTextures(1, &m_DiffuseTexture);
+	
 	m_GameObjectRenderer.onDestroy();
 	
 }
@@ -143,40 +143,9 @@ void GameObject::rotate(const vec3 & delta)
 	//m_Rotation += delta;
 }
 
-void GameObject::loadDiffuseTexture(const string & filename)
-{
-	m_DiffuseTexture = loadTextureFromFile(filename);
-	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture);
-	glGenerateMipmap(GL_TEXTURE_2D);
 
-	glGenSamplers(1, &m_Sampler);
-	glSamplerParameteri(m_Sampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glSamplerParameteri(m_Sampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glSamplerParameteri(m_Sampler, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-}
 
-void GameObject::loadSpecularTexture(const string & filename)
-{
-	m_SpecularTexture = loadTextureFromFile(filename);
-	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture);
-	glGenerateMipmap(GL_TEXTURE_2D);
-}
-
-void GameObject::loadNormalTexture(const string & filename)
-{
-	m_NormalTexture = loadTextureFromFile(filename);
-	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
-	glGenerateMipmap(GL_TEXTURE_2D);
-}
-
-void GameObject::loadHeightTexture(const string & filename)
-{
-	m_HeightTexture = loadTextureFromFile(filename);
-	glBindTexture(GL_TEXTURE_2D, m_HeightTexture);
-	glGenerateMipmap(GL_TEXTURE_2D);
-}
 
 
 void GameObject::setScale(vec3 scale)
@@ -197,6 +166,26 @@ void GameObject::setRotation(vec3 rot)
 void GameObject::loadShaders(const string & vsFilename, const string & fsFilename)
 {
 	m_GameObjectRenderer.loadShaders(vsFilename, fsFilename);
+}
+
+void GameObject::loadDiffuseTexture(const string & filename)
+{
+	m_GameObjectRenderer.loadDiffuseTexture(filename);
+}
+
+void GameObject::loadSpecularTexture(const string & filename)
+{
+	m_GameObjectRenderer.loadSpecularTexture(filename);
+}
+
+void GameObject::loadNormalTexture(const string & filename)
+{
+	m_GameObjectRenderer.loadNormalTexture(filename);
+}
+
+void GameObject::loadHeightTexture(const string & filename)
+{
+	m_GameObjectRenderer.loadHeightTexture(filename);
 }
 
 void GameObject::copyVertexData(Vertex * pVertex, int numberOfVertices, int * pIndices, int numberOfIndices)
