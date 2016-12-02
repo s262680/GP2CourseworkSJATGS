@@ -63,6 +63,8 @@ public:
 
 	void TransformUpdate();
 
+	mat4  getModelMatrix();
+
 private:
 
 	vec3 m_Scale;
@@ -73,6 +75,7 @@ private:
 	mat4 m_RotationMatrix;
 	mat4 m_TranslationMatrix;
 
+	mat4 m_ModelMatrix;
 };
 
 #endif

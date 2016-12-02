@@ -9,6 +9,7 @@
 #include "Transform.h"
 #include <iostream>
 #include "Renderer.h"
+#include "Mesh.h"
 
 using namespace std;
 
@@ -41,56 +42,18 @@ public:
 	{
 		return m_ModelMatrix;
 	};
-
-
-
-
-
-
-
 	void rotate(const vec3& delta);
-
-	
-	
 	void copyVertexData(Vertex *pVertex, int numberOfVertices, int *pIndices, int numberOfIndices);
-
-	
 	GLuint getShaderProgram();
-
-	
-
-
-
-
-	
-	
-
 private:
 	GameObject * m_pParent;
 	vector<shared_ptr<GameObject> > m_ChildrenGameObjects;
-
-
-
-
 	mat4 m_ModelMatrix;
-	
-
-	GLuint m_VBO;
-	GLuint m_EBO;
-	GLuint m_VAO;
-	int m_NumberOfVerts;
-	int m_NumberOfIndices;
-
 	//Shader Program
-	
-	
 	GLuint m_Sampler;
-
-
-	
-
 	Transform m_GameObjectTransform;
 	Renderer m_GameObjectRenderer;
+	Mesh m_GameObjectMesh;
 };
 
 #endif

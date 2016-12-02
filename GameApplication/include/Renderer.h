@@ -17,6 +17,8 @@ public:
 	void loadShaders(const string& vsFilename, const string& fsFilename);
 	void onDestroy();
 
+	void onRender(mat4& view, mat4& projection, GLuint VAO, mat4& modelMatrix, int numberOfIndices);
+
 	GLuint getShaderProgram()
 	{
 		return m_ShaderProgram;

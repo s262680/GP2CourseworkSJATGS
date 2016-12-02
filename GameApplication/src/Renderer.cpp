@@ -82,4 +82,60 @@ void Renderer::onDestroy()
 	glDeleteProgram(m_ShaderProgram);
 }
 
+void Renderer::onRender(mat4& view, mat4& projection, GLuint VAO, mat4& modelMatrix, int numberOfIndices)
+{
+
+	GLuint shaderProgram = m_ShaderProgram;
+	glUseProgram(shaderProgram);
+	glBindVertexArray(VAO);
+
+	GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
+	mat4 MVP = projection*view*modelMatrix;
+	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+
+	GLint ModelLocation = glGetUniformLocation(shaderProgram, "Model");
+	glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+	glBindSampler(0, m_Sampler);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture);
+	GLint specTextureLocation = glGetUniformLocation(shaderProgram, "diffuseSampler");
+	glUniform1i(specTextureLocation, 0);
+
+	glBindSampler(1, m_Sampler);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, m_SpecularTexture);
+	GLint diffTextureLocation = glGetUniformLocation(shaderProgram, "specularSampler");
+	glUniform1i(diffTextureLocation, 1);
+
+	glBindSampler(2, m_Sampler);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_NormalTexture);
+	GLint normTextureLocation = glGetUniformLocation(shaderProgram, "normalSampler");
+	glUniform1i(normTextureLocation, 2);
+
+	glBindSampler(3, m_Sampler);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D,m_HeightTexture);
+	GLint heightTextureLocation = glGetUniformLocation(shaderProgram, "heightMap");
+	glUniform1i(heightTextureLocation, 3);
+
+
+	GLint ambientLocation = glGetUniformLocation(shaderProgram, "ambientMaterialColour");
+	glUniform4fv(ambientLocation, 1, value_ptr(m_AmbientMaterialColour));
+
+	GLint diffuseLocation = glGetUniformLocation(shaderProgram, "diffuseMaterialColour");
+	glUniform4fv(diffuseLocation, 1, value_ptr(m_DiffuseMaterialColour));
+	//glUniform4fv(diffuseLocation, 1, value_ptr(m_DiffuseMaterialColour));
+
+	GLint specularLocation = glGetUniformLocation(shaderProgram, "specularMaterialColour");
+	glUniform4fv(specularLocation, 1, value_ptr(m_SpecularMaterialColour));
+
+	GLint specularPowerLocation = glGetUniformLocation(shaderProgram, "specularPower");
+	glUniform1f(specularPowerLocation, m_SpecularMaterialPower);
+
+	glDrawElements(GL_TRIANGLES, numberOfIndices, GL_UNSIGNED_INT, NULL);
+
+}
+
 

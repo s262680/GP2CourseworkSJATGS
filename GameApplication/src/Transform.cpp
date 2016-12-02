@@ -28,3 +28,9 @@ void Transform::TransformUpdate()
 	m_TranslationMatrix = translate(getPosition());
 	
 }
+
+mat4 Transform::getModelMatrix()
+{
+	m_ModelMatrix = m_TranslationMatrix*m_RotationMatrix*m_ScaleMatrix; //MARKER FOR WHERE WE DID STUFF!!!!!!!!!!!!!!!
+	return m_ModelMatrix;
+}
