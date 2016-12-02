@@ -14,8 +14,17 @@ public:
 	Renderer();
 	~Renderer();
 
+	void loadShaders(const string& vsFilename, const string& fsFilename);
+	void onDestroy();
+
+	GLuint getShaderProgram()
+	{
+		return m_ShaderProgram;
+	};
+
 private:
 
+	GLuint m_ShaderProgram;
 };
 
 #endif

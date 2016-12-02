@@ -8,7 +8,7 @@
 #include "Shader.h"
 #include "Transform.h"
 #include <iostream>
-#include "Material.h"
+#include "Renderer.h"
 
 using namespace std;
 
@@ -24,9 +24,15 @@ public:
 	void onDestroy();
 
 	void addChild(shared_ptr<GameObject> gameobject);
+
+	//Transform stuff
 	void setScale(vec3 scale);
 	void setPosition(vec3 pos);
 	void setRotation(vec3 rot);
+
+	//RendererStuff
+	void loadShaders(const string& vsFilename, const string& fsFilename);
+	
 
 	mat4& getModelMatrix()
 	{
@@ -42,13 +48,11 @@ public:
 	void rotate(const vec3& delta);
 
 	
-	void loadShaders(const string& vsFilename, const string& fsFilename);
+	
 	void copyVertexData(Vertex *pVertex, int numberOfVertices, int *pIndices, int numberOfIndices);
 
-	GLuint getShaderProgram()
-	{
-		return m_ShaderProgram;
-	};
+	
+	GLuint getShaderProgram();
 
 	void setAmbientMaterialColour(const vec4& colour)
 	{
@@ -95,7 +99,7 @@ private:
 	int m_NumberOfIndices;
 
 	//Shader Program
-	GLuint m_ShaderProgram;
+	
 	GLuint m_DiffuseTexture;
 	GLuint m_SpecularTexture;
 	GLuint m_Sampler;
@@ -109,6 +113,7 @@ private:
 	float m_SpecularMaterialPower;
 
 	Transform m_GameObjectTransform;
+	Renderer m_GameObjectRenderer;
 };
 
 #endif
