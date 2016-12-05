@@ -51,49 +51,29 @@ void GameObject::addChild(shared_ptr<GameObject> gameobject)
 	m_ChildrenGameObjects.push_back(gameobject);
 }
 
+
+
 void GameObject::rotate(const vec3 & delta)
 {
 	//m_Rotation += delta;
 }
 
-void GameObject::setScale(vec3 scale)
+
+void GameObject::setTransform(vec3 scale, vec3 pos, vec3 rot)
 {
 	m_GameObjectTransform.setScale(scale);
-}
-
-void GameObject::setPosition(vec3 pos)
-{
 	m_GameObjectTransform.setPosition(pos);
-}
-
-void GameObject::setRotation(vec3 rot)
-{
 	m_GameObjectTransform.setRotation(rot);
 }
 
-void GameObject::loadShaders(const string & vsFilename, const string & fsFilename)
+
+void GameObject::loadShadersAndTextures(const string & vsFilename, const string & fsFilename, const string & diffFilename, const string & spFilename, const string & norFilename, const string & heigFilename)
 {
 	m_GameObjectRenderer.loadShaders(vsFilename, fsFilename);
-}
-
-void GameObject::loadDiffuseTexture(const string & filename)
-{
-	m_GameObjectRenderer.loadDiffuseTexture(filename);
-}
-
-void GameObject::loadSpecularTexture(const string & filename)
-{
-	m_GameObjectRenderer.loadSpecularTexture(filename);
-}
-
-void GameObject::loadNormalTexture(const string & filename)
-{
-	m_GameObjectRenderer.loadNormalTexture(filename);
-}
-
-void GameObject::loadHeightTexture(const string & filename)
-{
-	m_GameObjectRenderer.loadHeightTexture(filename);
+	m_GameObjectRenderer.loadDiffuseTexture(diffFilename);
+	m_GameObjectRenderer.loadSpecularTexture(spFilename);
+	m_GameObjectRenderer.loadNormalTexture(norFilename);
+	m_GameObjectRenderer.loadHeightTexture(heigFilename);
 }
 
 void GameObject::copyVertexData(Vertex * pVertex, int numberOfVertices, int * pIndices, int numberOfIndices)

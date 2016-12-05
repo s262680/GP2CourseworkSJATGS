@@ -27,16 +27,11 @@ public:
 	void addChild(shared_ptr<GameObject> gameobject);
 
 	//Transform stuff
-	void setScale(vec3 scale);
-	void setPosition(vec3 pos);
-	void setRotation(vec3 rot);
+	void setTransform(vec3 scale, vec3 pos, vec3 rot);
 
 	//RendererStuff
-	void loadShaders(const string& vsFilename, const string& fsFilename);
-	void loadDiffuseTexture(const string& filename);
-	void loadSpecularTexture(const string& filename);
-	void loadNormalTexture(const string& filename);
-	void loadHeightTexture(const string& filename);
+	void loadShadersAndTextures(const string& vsFilename, const string& fsFilename, const string& diffFilename, const string& spFilename, const string& norFilename, const string& heigFilename);
+
 
 	mat4& getModelMatrix()
 	{
