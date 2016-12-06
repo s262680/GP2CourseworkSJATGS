@@ -29,7 +29,7 @@ uniform vec4 specularMaterialColour=vec4(1.0f,1.0f,1.0f,1.0f);
 uniform float specularPower=25.0f;
 uniform sampler2D diffuseSampler;
 uniform sampler2D specularSampler;
-vec2 bias;
+uniform float bias=0.03;
 uniform float scale = 0.015f;
 uniform sampler2D heightMap;
 
@@ -41,10 +41,14 @@ void main()
 	float height = texture(heightMap, vertexTextureCoordsOut).r;
 	
 	
-	vec2 correctedTexCoord = vertexTextureCoordsOut;
+	//vec2 correctedTexCoord = vertexTextureCoordsOut;
 	vec3 cameraDirectionOutNorm = normalize(cameraDirectionOut);
-	bias = cameraDirectionOutNorm.xy / cameraDirectionOutNorm.z * (height * scale);
-	correctedTexCoord = correctedTexCoord - bias;
+	//bias = cameraDirectionOutNorm.xy / cameraDirectionOutNorm.z * (height * scale);
+	//correctedTexCoord = correctedTexCoord - bias;
+	
+	//KS fix parallax bug
+	vec2 correctedTexCoord=scale*vertexTextureCoordsOut.xy*height;
+	correctedTexCoord=vertexTextureCoordsOut-correctedTexCoord-bias;
 
 	vec3 bumpNormals = texture(normalSampler, correctedTexCoord).xyz;
 	bumpNormals = normalize((bumpNormals*2.0f) - 1.0f);

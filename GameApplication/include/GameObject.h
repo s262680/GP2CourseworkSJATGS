@@ -43,6 +43,7 @@ public:
 private:
 	GameObject * m_pParent;
 	vector<shared_ptr<GameObject> > m_ChildrenGameObjects;
+	
 	mat4 m_ModelMatrix;
 	//Shader Program
 	GLuint m_Sampler;
