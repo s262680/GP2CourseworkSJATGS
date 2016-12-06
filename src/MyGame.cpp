@@ -16,24 +16,23 @@ MyGame::~MyGame()
 }
 
 void MyGame::initScene()
-{
-	string modelPath = ASSET_PATH + MODEL_PATH + "/Earth.fbx";
-	string vsFilename = ASSET_PATH + SHADER_PATH + "/parallaxMappingVS2.glsl";
-	string fsFilename = ASSET_PATH + SHADER_PATH + "/parallaxMappingFS2.glsl";
-	string diffTextureFileName = ASSET_PATH + TEXTURE_PATH + "/bricks_diff.jpg";
-	string specTextureFilename = ASSET_PATH + TEXTURE_PATH + "/bricks_spec.png";
-	string normTextureFilename = ASSET_PATH + TEXTURE_PATH + "/bricks_norm.png";
-	string heightTextureFilename = ASSET_PATH + TEXTURE_PATH + "/bricks_height.png";
-	m_TestGO=shared_ptr<GameObject>(loadModelFromFile(modelPath));
-	m_TestGO->loadShaders(vsFilename, fsFilename);
-	m_TestGO->loadDiffuseTexture(diffTextureFileName);
-	m_TestGO->loadSpecularTexture(specTextureFilename);
-	m_TestGO->loadNormalTexture(normTextureFilename);
-	m_TestGO->loadHeightTexture(heightTextureFilename);
+{	
+	//shared_ptr<GameObject> OjArray[]{m_TestGO};
+	string modelPath [] { ASSET_PATH + MODEL_PATH + "/Earth.fbx" };
+	string vsFilename[] { ASSET_PATH + SHADER_PATH + "/parallaxMappingVS2.glsl" };
+	string fsFilename[] { ASSET_PATH + SHADER_PATH + "/parallaxMappingFS2.glsl" };
+	string diffTextureFileName[]{ ASSET_PATH + TEXTURE_PATH + "/bricks_diff.jpg" };
+	string specTextureFilename[]{ ASSET_PATH + TEXTURE_PATH + "/bricks_spec.png" };
+	string normTextureFilename[]{ ASSET_PATH + TEXTURE_PATH + "/bricks_norm.png" };
+	string heightTextureFilename[]{ ASSET_PATH + TEXTURE_PATH + "/bricks_height.png" };
 
-	m_TestGO->setScale(vec3(5.0f, 5.0f, 5.0f));
-	m_TestGO->setPosition(vec3(20.0f, 0.0f, 0.0f));
-	m_TestGO->setRotation(vec3(0.0f, 0.0f, 0.0f));
+	int arrayLength = sizeof(modelPath) / sizeof(modelPath[0]);
+	for (int i = 0; i < arrayLength; i++)
+	{
+		m_TestGO = shared_ptr<GameObject>(loadModelFromFile(modelPath[i]));
+		m_TestGO->loadShadersAndTextures(vsFilename[i], fsFilename[i], diffTextureFileName[i], specTextureFilename[i], normTextureFilename[i], heightTextureFilename[i]);
+		m_TestGO->setTransform(vec3(5.0f, 5.0f, 5.0f), vec3(20.0f, 0.0f, 0.0f), vec3(0.0f, 0.0f, 0.0f));
+	}
 
 	m_CameraPosition = vec3(0.0f, 0.0f, 100.0f);
 
