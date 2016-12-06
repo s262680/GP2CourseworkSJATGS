@@ -47,7 +47,7 @@ void GameObject::onDestroy()
 
 void GameObject::addChild(shared_ptr<GameObject> gameobject)
 {
-	gameobject->m_pParent = this;
+	//gameobject->m_pParent = this;
 	m_ChildrenGameObjects.push_back(gameobject);
 }
 
@@ -58,7 +58,7 @@ void GameObject::rotate(const vec3 & delta)
 	//m_Rotation += delta;
 }
 
-
+//KS function to set transform
 void GameObject::setTransform(vec3 scale, vec3 pos, vec3 rot)
 {
 	m_GameObjectTransform.setScale(scale);
@@ -66,7 +66,7 @@ void GameObject::setTransform(vec3 scale, vec3 pos, vec3 rot)
 	m_GameObjectTransform.setRotation(rot);
 }
 
-
+//KS function to set sharders and textures
 void GameObject::loadShadersAndTextures(const string & vsFilename, const string & fsFilename, const string & diffFilename, const string & spFilename, const string & norFilename, const string & heigFilename)
 {
 	m_GameObjectRenderer.loadShaders(vsFilename, fsFilename);
